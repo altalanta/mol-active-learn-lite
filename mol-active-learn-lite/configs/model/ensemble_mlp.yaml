@@ -1,0 +1,41 @@
+name: "ensemble_mlp"
+
+# Network architecture
+input_dim: null  # Will be set based on features
+hidden_dims: [512, 256, 128]
+output_dim: 1
+dropout_rate: 0.2
+use_batch_norm: true
+activation: "relu"
+
+# Ensemble configuration
+ensemble_size: 5
+uncertainty_method: "ensemble"  # "ensemble" or "mc_dropout"
+
+# MC Dropout specific (when uncertainty_method is "mc_dropout")
+mc_samples: 100
+mc_dropout_rate: 0.3
+
+# Feature configuration
+feature_type: "combined"  # "descriptors", "ecfp", or "combined"
+descriptor_names: 
+  - "MolWt"
+  - "LogP" 
+  - "NumHDonors"
+  - "NumHAcceptors"
+  - "TPSA"
+  - "NumRotatableBonds"
+  - "NumAromaticRings"
+  - "NumAliphaticRings"
+  - "RingCount"
+  - "FractionCsp3"
+
+ecfp_radius: 3
+ecfp_bits: 1024
+
+# Regularization
+l2_reg: 1e-4
+gradient_clip_val: 1.0
+
+# Output normalization
+normalize_targets: true

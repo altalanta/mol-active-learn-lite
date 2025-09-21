@@ -1,0 +1,27 @@
+name: "esol"
+url: "https://raw.githubusercontent.com/deepchem/deepchem/master/datasets/delaney-processed.csv"
+target_column: "measured log solubility in mols per litre"
+smiles_column: "smiles"
+
+# Data splits
+train_frac: 0.7
+val_frac: 0.15
+test_frac: 0.15
+
+# Split strategy
+split_type: "scaffold"  # or "random"
+scaffold_cutoff: 0.7
+
+# Seeds and reproducibility
+data_seed: 42
+scaffold_seed: 123
+
+# Data processing
+remove_salts: true
+canonicalize_smiles: true
+max_heavy_atoms: 100
+min_heavy_atoms: 3
+
+# Caching
+cache_dir: "data/cache"
+processed_file: "data/esol_processed.csv"

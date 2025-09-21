@@ -1,0 +1,46 @@
+seed: 42
+
+# Active learning setup
+seed_size: 0.1  # Initial labeled fraction
+batch_size: 32  # Number of samples to acquire per round
+num_rounds: 5   # Number of active learning rounds
+
+# Acquisition function
+acquisition_fn: "ei"  # "ei" (Expected Improvement) or "ucb" (Upper Confidence Bound)
+ucb_beta: 2.0  # UCB exploration parameter
+ei_jitter: 0.01  # Small noise for numerical stability
+
+# GP surrogate model
+gp_kernel: "rbf"  # "rbf" or "matern"
+gp_lengthscale_prior: "gamma"
+gp_outputscale_prior: "gamma" 
+gp_noise_prior: "gamma"
+
+# GP optimization
+gp_lr: 0.1
+gp_num_epochs: 100
+gp_batch_size: null  # Use all data
+
+# Embedding dimensions
+embedding_dim: 128  # Size of penultimate layer for GP features
+
+# Pool sampling
+pool_strategy: "diverse"  # "diverse" or "random"
+diversity_threshold: 0.1
+
+# Retraining
+retrain_from_scratch: true
+retrain_epochs: 50  # Reduced epochs for AL iterations
+
+# Evaluation
+eval_metrics: ["rmse", "mae", "r2"]
+save_predictions: true
+plot_results: true
+
+# Comparison baselines
+compare_random: true
+compare_uncertainty: true  # Pure uncertainty sampling
+
+# Output
+results_dir: "results/active_learning"
+save_models: false  # Don't save intermediate models to save space
