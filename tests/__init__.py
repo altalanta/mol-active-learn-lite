@@ -1,0 +1,1 @@
+"""Test package for mol-active-learn-lite."""
