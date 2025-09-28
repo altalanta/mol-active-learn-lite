@@ -1,0 +1,109 @@
+[build-system]
+requires = ["setuptools>=69", "setuptools-scm[toml]>=8"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "mol-active-learn-lite"
+dynamic = ["version"]
+description = "Probabilistic molecular property prediction with Bayesian active learning"
+authors = [
+    {name = "ML Engineering Team", email = "team@example.com"}
+]
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.10"
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11", 
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Chemistry",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+# Core CPU-only dependencies
+dependencies = [
+    "torch>=2.0.0,<3.0.0",
+    "numpy>=1.24.0",
+    "pandas>=2.0.0",
+    "pydantic>=2.5.0",
+    "polars>=0.20.0",
+    "scikit-learn>=1.3.0",
+    "pyyaml>=6.0",
+    "tqdm>=4.64.0",
+    "typer>=0.9.0",
+    "requests>=2.31.0",
+]
+
+[project.optional-dependencies]
+rdkit = ["rdkit-pypi>=2023.3.1"]
+al = ["botorch>=0.9.0", "gpytorch>=1.11.0"]
+viz = ["matplotlib>=3.6.0", "plotly>=5.0.0", "seaborn>=0.12.0"]
+dev = [
+    "pytest>=7.0.0",
+    "pytest-cov>=4.0.0",
+    "mypy>=1.5.0",
+    "ruff>=0.1.0",
+    "black>=23.0.0",
+    "pre-commit>=3.0.0",
+    "types-PyYAML>=6.0.0",
+    "types-requests>=2.31.0",
+    "mkdocs>=1.5.0",
+    "mkdocs-material>=9.5.0",
+]
+
+[project.scripts]
+mol = "mol_active.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+include = ["mol_active*"]
+
+[tool.setuptools_scm]
+write_to = "src/mol_active/_version.py"
+write_to_template = "__version__ = \"{version}\"\n"
+fallback_version = "0.0.0"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+addopts = "-ra --strict-markers --strict-config --cov=mol_active --cov-report=term-missing"
+testpaths = ["tests"]
+filterwarnings = [
+    "error::DeprecationWarning",
+    "ignore::UserWarning:rdkit.*",
+    "ignore::UserWarning:pkgutil",
+]
+
+[tool.ruff]
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "B", "I", "UP", "PL"]
+ignore = ["E203", "B008"]
+
+[tool.ruff.format]
+quote-style = "double"
+
+[tool.ruff.lint.isort]
+known-first-party = ["mol_active"]
+
+[tool.mypy]
+python_version = "3.10"
+warn_return_any = true
+warn_unused_configs = true
+strict = true
+mypy_path = "src"
+
+[tool.coverage.run]
+branch = true
+source = ["mol_active"]
+
+[tool.coverage.report]
+skip_covered = true
+show_missing = true
+precision = 2
